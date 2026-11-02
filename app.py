@@ -589,23 +589,19 @@ elif page == "Estados financieros":
             b.metric("Saldos positivos",f"{positive:,}")
             c.metric("Saldos negativos",f"{negative:,}")
                 # Convertimos explícitamente la columna por su nombre para cambiar su tipo de datos
-    nombre_columna = view.columns[1]
-    view[nombre_columna] = view[nombre_columna].astype(object).map(lambda x: f"{x:,.0f}" if pd.notna(x) else "-")
-    st.markdown('<div class="table-note">Importes expresados en miles de S/. Los valores se conservan según el libro Excel; las cuentas sin i...', unsafe_allow_html=True)
-    st.dataframe(view.style.set_properties(**{"padding":"9px 12px"}).set_table_styles([
-        {"selector":"th","props":[("background-color","#E8F6FC"),("color","#075B88"),("font-weight","750"),("border-bottom","3px ...")]},
-        {"selector":"td","props":[("border-bottom","1px solid #E3EDF3"),("color","#173B56")]},
-        {"selector":"tbody tr:nth-child(even)","props":[("background-color","#F5FAFD")]},
-    ]),use_container_width=True,hide_index=True,height=620)
-    st.download_button("Descargar vista CSV",view.to_csv(index=False).encode("utf-8-sig"),f"{tab}_{chosen_year}.csv","text/csv")
-        else:
-            show_table(df)
+   nombre_columna = view.columns[1]
+view[nombre_columna] = view[nombre_columna].astype(object).map(lambda x: f"{x:,.0f}" if pd.notna(x) else "-")
+st.markdown('<div class="table-note">Importes expresados en miles de S/. Los valores se conservan según el libro Excel; las cuentas sin i...', unsafe_allow_html=True)
+st.dataframe(view.style.set_properties(**{"padding":"9px 12px"}).set_table_styles([
+    {"selector":"th","props":[("background-color","#E8F6FC"),("color","#075B88"),("font-weight","750"),("border-bottom","3px ...")]},
+    {"selector":"td","props":[("border-bottom","1px solid #E3EDF3"),("color","#173B56")]},
+    {"selector":"tbody tr:nth-child(even)","props":[("background-color","#F5FAFD")]},
+]),use_container_width=True,hide_index=True,height=620)
+st.download_button("Descargar vista CSV",view.to_csv(index=False).encode("utf-8-sig"),f"{tab}_{chosen_year}.csv","text/csv")
 
 # Cerramos correctamente la sección de la página actual y pasamos a la siguiente
 elif page == "Fuentes y metodología":
     section("Trazabilidad y límites de la información")
-    st.markdown("""
-    **Fuentes incorporadas al proyecto**
     ...
     - Libro Excel proporcionado: hojas Resumen, Supuestos, Empresa, Cronologia, Procedimiento, Acreedores, Junta_Votacion, Plan_Reestructuracion, Base_Datos, Indicadores, ESF, ER y EFE.
     - Informe académico PDF: *Análisis del proceso concursal y la reestructuración empresarial de Telefónica del Perú S.A.A. bajo la Ley General del Sistema Concursal*.
