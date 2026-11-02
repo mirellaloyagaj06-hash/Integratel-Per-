@@ -598,9 +598,8 @@ elif page == "Estados financieros":
         {"selector":"tbody tr:nth-child(even)","props":[("background-color","#F5FAFD")]},
     ]),use_container_width=True,hide_index=True,height=620)
     st.download_button("Descargar vista CSV",view.to_csv(index=False).encode("utf-8-sig"),f"{tab}_{chosen_year}.csv","text/csv")
-        else:
-            show_table(df)
-    else: st.warning(f"No se encontró la hoja {tab}.")
+else:
+    show_table(df)
 
 # ------------------------------------------------------------
 # FUENTES / METODOLOGÍA
