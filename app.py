@@ -598,16 +598,15 @@ elif page == "Estados financieros":
         {"selector":"tbody tr:nth-child(even)","props":[("background-color","#F5FAFD")]},
     ]),use_container_width=True,hide_index=True,height=620)
     st.download_button("Descargar vista CSV",view.to_csv(index=False).encode("utf-8-sig"),f"{tab}_{chosen_year}.csv","text/csv")
-else:
-    show_table(df)
+        else:
+            show_table(df)
 
-# ------------------------------------------------------------
-# FUENTES / METODOLOGÍA
-# ------------------------------------------------------------
+# Cerramos correctamente la sección de la página actual y pasamos a la siguiente
 elif page == "Fuentes y metodología":
     section("Trazabilidad y límites de la información")
     st.markdown("""
     **Fuentes incorporadas al proyecto**
+    ...
     - Libro Excel proporcionado: hojas Resumen, Supuestos, Empresa, Cronologia, Procedimiento, Acreedores, Junta_Votacion, Plan_Reestructuracion, Base_Datos, Indicadores, ESF, ER y EFE.
     - Informe académico PDF: *Análisis del proceso concursal y la reestructuración empresarial de Telefónica del Perú S.A.A. bajo la Ley General del Sistema Concursal*.
     - Referencias normativas y periodísticas citadas en el informe: deben consultarse en sus publicaciones originales antes de una entrega final.
