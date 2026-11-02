@@ -588,7 +588,9 @@ elif page == "Estados financieros":
             a.metric("Cuentas mostradas",f"{len(view):,}")
             b.metric("Saldos positivos",f"{positive:,}")
             c.metric("Saldos negativos",f"{negative:,}")
-            view.iloc[:, 1] = view.iloc[:, 1].astype(object).map(lambda x: f"{x:,.0f}" if pd.notna(x) else "-")
+            # Convertimos explícitamente la columna por su nombre para cambiar su tipo de datos
+nombre_columna = view.columns[1]
+view[nombre_columna] = view[nombre_columna].map(lambda x: f"{x:,.0f}" if pd.notna(x) else "-")
             st.markdown('<div class="table-note">Importes expresados en miles de S/. Los valores se conservan según el libro Excel; las cuentas sin importe no se muestran y los ceros se mantienen.</div>',unsafe_allow_html=True)
             st.dataframe(view.style.set_properties(**{"padding":"9px 12px"}).set_table_styles([
                 {"selector":"th","props":[("background-color","#E8F6FC"),("color","#075B88"),("font-weight","750"),("border-bottom","3px solid #35B6E8")]},
