@@ -249,7 +249,7 @@ sup = read("Supuestos", 3)
 
 # Logotipo oficial proporcionado por la usuaria (fondo eliminado)
 import base64
-_logo_path = ROOT / "assets" / "movistar_logo.png"
+_logo_path = ROOT / "movistar_logo.png"
 _logo_b64 = base64.b64encode(_logo_path.read_bytes()).decode("ascii") if _logo_path.exists() else ""
 
 # Header
