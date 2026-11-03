@@ -571,42 +571,46 @@ elif page == "Plan propuesto":
 # ------------------------------------------------------------
 # ESTADOS FINANCIEROS
 # ------------------------------------------------------------
+# ------------------------------------------------------------
+# ESTADOS FINANCIEROS
+# ------------------------------------------------------------
 elif page == "Estados financieros":
     section("Estados financieros comparativos", "Consulta por estado y año con formato financiero, jerarquía visual y cifras tomadas directamente del Excel.")
     tab=st.selectbox("Estado financiero",["ESF","ER","EFE"],format_func=lambda x:{"ESF":"Estado de situación financiera","ER":"Estado de resultados","EFE":"Estado de flujos de efectivo"}[x])
     df=read(tab,2)
-   if not df.empty:
-    account_col=next((c for c in df.columns if str(c).strip().lower()=="cuenta"),df.columns)
-    years=[c for c in df.columns if str(c).replace(".0","").isdigit()]
-    if years:
-        years=sorted(years,key=lambda x:int(float(x)))
-        chosen_year=st.selectbox("Año del estado financiero",years,index=len(years)-1,format_func=lambda x:str(int(float(x))))
-        view=df[[account_col,chosen_year]].copy()
-        view.columns=["Cuenta",f"Importe · {int(float(chosen_year))} (miles de S/)"]
-        view=view.dropna(subset=["Cuenta"])
-        view=view[~view["Cuenta"].astype(str).str.strip().str.lower().isin(["none","nan","total control"])]
-        view[f"Importe · {int(float(chosen_year))} (miles de S/)"]=pd.to_numeric(view[f"Importe · {int(float(chosen_year))} (miles de S/)"])
-        view=view.dropna(subset=[f"Importe · {int(float(chosen_year))} (miles de S/)"])
-        positive=int((view.iloc[:,1]>0).sum()); negative=int((view.iloc[:,1]<0).sum())
-        
-        a,b,c=st.columns(3)
-        a.metric("Cuentas mostradas",f"{len(view):,}")
-        b.metric("Saldos positivos",f"{positive:,}")
-        c.metric("Saldos negativos",f"{negative:,}")
-        
-        col_name = view.columns
-        view[col_name] = view[col_name].map(lambda x: f"{x:,.0f}" if pd.notna(x) else "-").astype(str)
-        
-        st.markdown('<div class="table-note">Importes expresados miles de S/. Los valores se conservan según el libro Excel; las c')
-        st.dataframe(view.style.set_properties(**{"padding":"9px 12px"}).set_table_styles([
-            {"selector":"th","props":[("background-color","#E8F6FC"),("color","#075B88"),("font-weight","750"),("border-bottom","3px solid #075B88")]},
-            {"selector":"td","props":[("border-bottom","1px solid #E3EDF3"),("color","#173B56")]},
-            {"selector":"tbody tr:nth-child(even)","props":[("background-color","#F5FAFD")]},
-        ]),use_container_width=True,hide_index=True,height=620)
-        st.download_button("Descargar vista CSV",view.to_csv(index=False).encode("utf-8-sig"),f"{tab}_{chosen_year}.csv","text/csv")
-    else:
-        show_table(df)
-
+    if not df.empty:
+        account_col=next((c for c in df.columns if str(c).strip().lower()=="cuenta"),df.columns)
+        years=[c for c in df.columns if str(c).replace(".0","").isdigit()]
+        if years:
+            years=sorted(years,key=lambda x:int(float(x)))
+            chosen_year=st.selectbox("Año del estado financiero",years,index=len(years)-1,format_func=lambda x:str(int(float(x))))
+            view=df[[account_col,chosen_year]].copy()
+            
+            # Formateamos solo los valores de la columna numérica
+            target_col = chosen_year
+            view[target_col] = view[target_col].map(lambda x: f"{x:,.0f}" if pd.notna(x) else "-").astype(str)
+            
+            view.columns=["Cuenta",f"Importe · {int(float(chosen_year))} (miles de S/)"]
+            view=view.dropna(subset=["Cuenta"])
+            view=view[~view["Cuenta"].astype(str).str.strip().str.lower().isin(["none","nan","total control"])]
+            
+            positive=int((pd.to_numeric(df[chosen_year], errors='coerce')>0).sum())
+            negative=int((pd.to_numeric(df[chosen_year], errors='coerce')<0).sum())
+            
+            a,b,c=st.columns(3)
+            a.metric("Cuentas mostradas",f"{len(view):,}")
+            b.metric("Saldos positivos",f"{positive:,}")
+            c.metric("Saldos negativos",f"{negative:,}")
+            
+            st.markdown('<div class="table-note">Importes expresados en miles de S/. Los valores se conservan según el libro Excel; las c')
+            st.dataframe(view.style.set_properties(**{"padding":"9px 12px"}).set_table_styles([
+                {"selector":"th","props":[("background-color","#E8F6FC"),("color","#075B88"),("font-weight","750"),("border-bottom","3px solid #075B88")]},
+                {"selector":"td","props":[("border-bottom","1px solid #E3EDF3"),("color","#173B56")]},
+                {"selector":"tbody tr:nth-child(even)","props":[("background-color","#F5FAFD")]},
+            ]),use_container_width=True,hide_index=True,height=620)
+            st.download_button("Descargar vista CSV",view.to_csv(index=False).encode("utf-8-sig"),f"{tab}_{chosen_year}.csv","text/csv")
+        else:
+            show_table(df)
 # ------------------------------------------------------------
 # FUENTES / METODOLOGÍA
 # ------------------------------------------------------------
