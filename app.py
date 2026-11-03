@@ -575,7 +575,7 @@ elif page == "Estados financieros":
     section("Estados financieros comparativos", "Consulta por estado y año con formato financiero, jerarquía visual y cifras tomadas directamente del Excel.")
     tab=st.selectbox("Estado financiero",["ESF","ER","EFE"],format_func=lambda x:{"ESF":"Estado de situación financiera","ER":"Estado de resultados","EFE":"Estado de flujos de efectivo"}[x])
     df=read(tab,2)
-      if not df.empty:
+   if not df.empty:
     account_col=next((c for c in df.columns if str(c).strip().lower()=="cuenta"),df.columns)
     years=[c for c in df.columns if str(c).replace(".0","").isdigit()]
     if years:
