@@ -578,16 +578,15 @@ elif page == "Estados financieros":
     if not df.empty:
         account_col=next((c for c in df.columns if str(c).strip().lower()=="cuenta"),df.columns[1])
         years=[c for c in df.columns if str(c).replace(".0","").isdigit()]
-        if years:
-            years=sorted(years,key=lambda x:int(float(x)))
-            chosen_year=st.selectbox("Año del estado financiero",years,index=len(years)-1,format_func=lambda x:str(int(float(x))))
-            view=df[[account_col,chosen_year]].copy()
-            view.columns=["Cuenta",f"Importe · {int(float(chosen_year))} (miles de S/)" ]
-            view=view.dropna(subset=["Cuenta"])
-            view=view[~view["Cuenta"].astype(str).str.strip().str.lower().isin(["none","nan","total control"])]
-            view[f"Importe · {int(float(chosen_year))} (miles de S/)"]=pd.to_numeric(view[f"Importe · {int(float(chosen_year))} (miles de S/)"],errors="coerce")
-            # Se omiten filas completamente vacías, pero se mantienen las cuentas con importe cero.
-                   view=view.dropna(subset=[f"Importe · {int(float(chosen_year))} (miles de S/)"])
+            if years:
+        years=sorted(years,key=lambda x:int(float(x)))
+        chosen_year=st.selectbox("Año del estado financiero",years,index=len(years)-1,format_func=lambda x:str(int(float(x))))
+        view=df[[account_col,chosen_year]].copy()
+        view.columns=["Cuenta",f"Importe · {int(float(chosen_year))} (miles de S/)"]
+        view=view.dropna(subset=["Cuenta"])
+        view=view[~view["Cuenta"].astype(str).str.strip().str.lower().isin(["none","nan","total control"])]
+        view[f"Importe · {int(float(chosen_year))} (miles de S/)"]=pd.to_numeric(view[f"Importe · {int(float(chosen_year))} (miles de S/)"])
+        view=view.dropna(subset=[f"Importe · {int(float(chosen_year))} (miles de S/)"])
         positive=int((view.iloc[:,1]>0).sum()); negative=int((view.iloc[:,1]<0).sum())
         
         a,b,c=st.columns(3)
@@ -606,6 +605,7 @@ elif page == "Estados financieros":
         ]),use_container_width=True,hide_index=True,height=620)
         st.download_button("Descargar vista CSV",view.to_csv(index=False).encode("utf-8-sig"),f"{tab}_{chosen_year}.csv","text/csv")
     else:
+        show_table(df)
         show_table(df)
     else: st.warning(f"No se encontró la hoja {tab}.")
 
