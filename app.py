@@ -593,7 +593,9 @@ elif page == "Estados financieros":
             a.metric("Cuentas mostradas",f"{len(view):,}")
             b.metric("Saldos positivos",f"{positive:,}")
             c.metric("Saldos negativos",f"{negative:,}")
-            view.iloc[:,1]=view.iloc[:,1].map(lambda x:f"{x:,.0f}" if pd.notna(x) else "—")
+            # Reemplazar la línea 596 por:
+col_name = view.columns[1]
+view[col_name] = view[col_name].map(lambda x: f"{x:,.0f}" if pd.notna(x) else "-").astype(str)
             st.markdown('<div class="table-note">Importes expresados en miles de S/. Los valores se conservan según el libro Excel; las cuentas sin importe no se muestran y los ceros se mantienen.</div>',unsafe_allow_html=True)
             st.dataframe(view.style.set_properties(**{"padding":"9px 12px"}).set_table_styles([
                 {"selector":"th","props":[("background-color","#E8F6FC"),("color","#075B88"),("font-weight","750"),("border-bottom","3px solid #35B6E8")]},
