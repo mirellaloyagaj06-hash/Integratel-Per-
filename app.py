@@ -594,15 +594,15 @@ elif page == "Estados financieros":
             b.metric("Saldos positivos",f"{positive:,}")
             c.metric("Saldos negativos",f"{negative:,}")
             # Reemplazar la línea 596 por:
-col_name = view.columns[1]
-view[col_name] = view[col_name].map(lambda x: f"{x:,.0f}" if pd.notna(x) else "-").astype(str)
-            st.markdown('<div class="table-note">Importes expresados en miles de S/. Los valores se conservan según el libro Excel; las cuentas sin importe no se muestran y los ceros se mantienen.</div>',unsafe_allow_html=True)
-            st.dataframe(view.style.set_properties(**{"padding":"9px 12px"}).set_table_styles([
-                {"selector":"th","props":[("background-color","#E8F6FC"),("color","#075B88"),("font-weight","750"),("border-bottom","3px solid #35B6E8")]},
-                {"selector":"td","props":[("border-bottom","1px solid #E3EDF3"),("color","#173B56")]},
-                {"selector":"tbody tr:nth-child(even)","props":[("background-color","#F5FAFD")]},
-            ]),use_container_width=True,hide_index=True,height=620)
-            st.download_button("Descargar vista CSV",view.to_csv(index=False).encode("utf-8-sig"),f"{tab}_{chosen_year}.csv","text/csv")
+    col_name = view.columns[1]
+    view[col_name] = view[col_name].map(lambda x: f"{x:,.0f}" if pd.notna(x) else "-").astype(str)
+    st.markdown('<div class="table-note">Importes expresados en miles de S/. Los valores se conservan según el libro Excel; las c')
+    st.dataframe(view.style.set_properties(**{"padding":"9px 12px"}).set_table_styles([
+        {"selector":"th","props":[("background-color","#E8F6FC"),("color","#075B88"),("font-weight","750"),("border-bottom","3px solid #075B88")]},
+        {"selector":"td","props":[("border-bottom","1px solid #E3EDF3"),("color","#173B56")]},
+        {"selector":"tbody tr:nth-child(even)","props":[("background-color","#F5FAFD")]},
+    ]),use_container_width=True,hide_index=True,height=620)
+    st.download_button("Descargar vista CSV",view.to_csv(index=False).encode("utf-8-sig"),f"{tab}_{chosen_year}.csv","text/csv")
         else:
             show_table(df)
     else: st.warning(f"No se encontró la hoja {tab}.")
