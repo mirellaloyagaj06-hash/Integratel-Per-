@@ -31,11 +31,16 @@ def find_logo():
 
 LOGO_PATH = find_logo()
 PLOTLY_CONFIG = {"responsive": True, "displayModeBar": False, "displaylogo": False}
-CHART_COLORS = [BLUE, CYAN, LIME, AMBER, "#8B79C6", "#E27D60", "#4DB6AC", "#5C6BC0"]
-
-NAVY, BLUE, CYAN, LIME = "#005B96", "#087DB5", "#35B6E8", "#A8CF38"
-INK, MUTED, PALE, GREEN, AMBER, RED = "#18324D", "#60758A", "#EEF8FC", "#16836A", "#D68A28", "#C94C55"
-
+CHART_COLORS = [
+    "#2476B8",  # Azul
+    "#4FC3F7",  # Celeste
+    "#A4C639",  # Verde
+    "#FFC107",  # Ámbar
+    "#8B79C6",
+    "#E27D60",
+    "#4DB6AC",
+    "#5C6BC0"
+]
 st.markdown("""
 <style>
 .stApp{background:#F3F7FA;color:#18324D}
