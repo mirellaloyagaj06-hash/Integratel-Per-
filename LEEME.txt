@@ -1,0 +1,51 @@
+INTEGRATEL PERÚ – PANEL DE INTELIGENCIA FINANCIERA Y CONCURSAL
+Versión preparada para GitHub y despliegue en Streamlit Community Cloud.
+
+ARCHIVOS DEL REPOSITORIO
+- app.py: aplicación Streamlit (archivo principal).
+- Movistar_Plan_de_Reestructuracion_corregido.xlsx: fuente de datos del aplicativo.
+- assets/movistar_logo.png: logotipo de Movistar.
+- Informe_Concursal_Integratel.pdf: documento de referencia incluido con el proyecto.
+- requirements.txt: dependencias Python.
+- runtime.txt: versión de Python recomendada para el despliegue.
+- .streamlit/config.toml: tema y configuración de Streamlit.
+
+HOJAS DEL EXCEL
+La aplicación utiliza las hojas Resumen, Supuestos, Empresa, Cronologia, Procedimiento,
+Acreedores, Junta_Votacion, Capacidad_Pago, Plan_Reestructuracion, Sensibilidad,
+Base_Datos, Indicadores, ESF, ER y EFE. La hoja Liquidacion_Prelacion se excluye
+intencionalmente de la navegación y de los análisis.
+
+PUBLICAR EN GITHUB
+1. Crea un repositorio en GitHub.
+2. Sube el contenido de esta carpeta conservando la estructura y los nombres de archivos.
+3. Verifica que app.py y el archivo Excel estén en la raíz del repositorio y que el logo
+   permanezca dentro de la carpeta assets.
+4. No cambies las mayúsculas/minúsculas de los nombres: los servidores Linux distinguen
+   entre Movistar_logo.png y movistar_logo.png.
+
+DESPLEGAR COMO APLICATIVO WEB
+1. Entra a https://share.streamlit.io/ e inicia sesión con GitHub.
+2. Selecciona Create app y el repositorio que acabas de subir.
+3. Selecciona la rama y coloca app.py como Main file path.
+4. Pulsa Deploy. Streamlit instalará automáticamente las dependencias de requirements.txt.
+
+EJECUCIÓN LOCAL
+1. Instala Python 3.11.
+2. En la carpeta del proyecto ejecuta: python -m pip install -r requirements.txt
+3. Ejecuta: python -m streamlit run app.py
+4. Abre la dirección local que muestre Streamlit (normalmente http://localhost:8501).
+
+COMPATIBILIDAD DE DESPLIEGUE
+- Los recursos se buscan usando rutas relativas a app.py; no se utilizan rutas locales de Windows.
+- El logotipo se carga desde assets y tiene búsqueda alternativa por si cambia el uso de mayúsculas.
+- Los gráficos Plotly se configuran como responsivos y sin barra de herramientas innecesaria.
+- Los nombres de archivo y las rutas respetan la sensibilidad a mayúsculas/minúsculas de GitHub/Linux.
+- La hoja Liquidacion_Prelacion no se muestra ni se procesa como sección del aplicativo.
+
+NOTAS
+- Los datos se leen directamente del nuevo Excel. Mantén el Excel junto a app.py.
+- Los créditos laborales y proveedores se detallan por separado en la tabla de acreedores;
+  el bloque de voto «Otros» sigue agregado en la hoja de votación del libro.
+- Escenarios, cronogramas y flujos futuros son simulaciones/proyecciones, no decisiones
+  oficiales de Indecopi ni acuerdos aprobados por una Junta.
