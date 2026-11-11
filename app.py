@@ -40,6 +40,7 @@ CHART_COLORS = [
     "#E27D60",
     "#4DB6AC",
     "#5C6BC0"
+]
 st.markdown("""
 <style>
 .stApp{background:#F3F7FA;color:#18324D}
